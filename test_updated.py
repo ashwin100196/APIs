@@ -191,11 +191,11 @@ class poulate_cctv:
         resp_data = {"CCTV":[1,2,3]}
         return json.dumps(resp_data)
 
-class poulate_location:
+class poulate_type:
     def GET(self):
-        resp_data = {"Event type":['human detected','hardhatnot worn','safety glasses not worn']}
+        resp_data = {"Event type":'human detected'}
         return json.dumps(resp_data)
-
+#,'hardhat not worn','safety glasses not worn']
 
 
 print("Server Started at:")
