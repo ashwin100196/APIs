@@ -181,17 +181,17 @@ class get_contact_blocks:
         else :
             return "Error"
 
-class poulate_location:
+class populate_location:
     def GET(self):
         resp_data = {"Location":[1,2,3]}
         return json.dumps(resp_data)
 
-class poulate_cctv:
+class populate_cctv:
     def GET(self):
         resp_data = {"CCTV":[1,2,3]}
         return json.dumps(resp_data)
 
-class poulate_type:
+class populate_type:
     def GET(self):
         resp_data = {"Event type":'human detected'}
         return json.dumps(resp_data)
