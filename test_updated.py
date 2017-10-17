@@ -49,7 +49,6 @@ class alert_history:
     def GET(self):  
         client_input = web.input()
 
-        query = client_input.query
         location_id = client_input.l_id
         cctv_id = client_input.cc_id
         event_type = client_input.type
@@ -63,54 +62,49 @@ class alert_history:
         print(time_start)
         print(time_end)
 
-        if query == 'alert-history':
-            if event_type == 'all':
-                cursor = alerts.find({"$and":[{"alert":"True"},{"type":"person"},{"timestamp":{"$gt":time_start,"$lt":time_end}}]})
-                c1 = cursor.count()
-                sum1 = sum_the_time(cursor,time_start,time_end)
-                cursor = alerts.find({"$and":[{"alert":"True"},{"type":"hardhat"},{"timestamp":{"$gt":time_start,"$lt":time_end}}]})
-                c2 = cursor.count()
-                sum2 = sum_the_time(cursor,time_start,time_end)
-                cursor = alerts.find({"$and":[{"alert":"True"},{"type":"safetyglasses"},{"timestamp":{"$gt":time_start,"$lt":time_end}}]})
-                c3 = cursor.count()
-                sum3 = sum_the_time(cursor,time_start,time_end)
-                t_sum = sum1+sum2+sum3
-                alert_piechart_p1 = sum1/t_sum*100.0
-                alert_piechart_p2 = sum2/t_sum*100.0
-                alert_piechart_p3 = sum3/t_sum*100.0
-                remaining_pie = 100.0-alert_piechart_p1-alert_piechart_p2-alert_piechart_p3
-                true_alerts = c1+c2+c3
-                total_alerts = alerts.find({"timestamp":{"$gt":time_start,"$lt":time_end}}).count()
-                false_percentage = (1-(true_alerts/total_alerts))*100.0
-                resp_data = {"Percentage1":alert_piechart_p1,"Percentage2":alert_piechart_p2,"Percentage3":alert_piechart_p3,"Percentage4":remaining_pie}
-                return json.dumps(resp_data)
-            else:
-                print('hi')
-                cursor = alerts.find({"$and":[{"alert":"True"},{"type":event_type},{"timestamp":{"$gt":time_start,"$lt":time_end}}]})
-                print(cursor.count())
-                true_alerts = cursor.count()
-                sum = sum_the_time(cursor,time_start,time_end)
-                piechart_percentage = sum/86400*100.0
-                remaining_pie = 100-piechart_percentage
-                total_alerts = alerts.find({"$and":[{"type":event_type},{"timestamp":{"$gt":time_start,"$lt":time_end}}]}).count()
-                false_percentage = (1-(true_alerts/total_alerts))*100
-                resp_data = {"Percentage1":piechart_percentage,"Percentage2":remaining_pie}
-                return json.dumps(resp_data)
+        if event_type == 'all':
+            cursor = alerts.find({"$and":[{"alert":"True"},{"type":"person"},{"timestamp":{"$gt":time_start,"$lt":time_end}}]})
+            c1 = cursor.count()
+            sum1 = sum_the_time(cursor,time_start,time_end)
+            cursor = alerts.find({"$and":[{"alert":"True"},{"type":"hardhat"},{"timestamp":{"$gt":time_start,"$lt":time_end}}]})
+            c2 = cursor.count()
+            sum2 = sum_the_time(cursor,time_start,time_end)
+            cursor = alerts.find({"$and":[{"alert":"True"},{"type":"safetyglasses"},{"timestamp":{"$gt":time_start,"$lt":time_end}}]})
+            c3 = cursor.count()
+            sum3 = sum_the_time(cursor,time_start,time_end)
+            t_sum = sum1+sum2+sum3
+            alert_piechart_p1 = sum1/t_sum*100.0
+            alert_piechart_p2 = sum2/t_sum*100.0
+            alert_piechart_p3 = sum3/t_sum*100.0
+            remaining_pie = 100.0-alert_piechart_p1-alert_piechart_p2-alert_piechart_p3
+            true_alerts = c1+c2+c3
+            total_alerts = alerts.find({"timestamp":{"$gt":time_start,"$lt":time_end}}).count()
+            false_percentage = (1-(true_alerts/total_alerts))*100.0
+            resp_data = {"Percentage1":alert_piechart_p1,"Percentage2":alert_piechart_p2,"Percentage3":alert_piechart_p3,"Percentage4":remaining_pie}
+            return json.dumps(resp_data)
         else:
-            return "Error"
+            print('hi')
+            cursor = alerts.find({"$and":[{"alert":"True"},{"type":event_type},{"timestamp":{"$gt":time_start,"$lt":time_end}}]})
+            print(cursor.count())
+            true_alerts = cursor.count()
+            sum = sum_the_time(cursor,time_start,time_end)
+            piechart_percentage = sum/86400*100.0
+            remaining_pie = 100-piechart_percentage
+            total_alerts = alerts.find({"$and":[{"type":event_type},{"timestamp":{"$gt":time_start,"$lt":time_end}}]}).count()
+            false_percentage = (1-(true_alerts/total_alerts))*100
+            resp_data = {"Percentage1":piechart_percentage,"Percentage2":remaining_pie}
+            return json.dumps(resp_data)
 
 class false_alert:    
     def GET(self):  
         client_input = web.input()
 
-        query = client_input.query
         location_id = client_input.l_id
         cctv_id = client_input.cc_id
         event_type = client_input.type
         time_start = int(client_input.t_start)
         time_end = int(client_input.t_end)
 
-        if query == 'false-alert':
             if event_type == 'all':
                 cursor = alerts.find({"$and":[{"alert":"True"},{"type":"person"},{"timestamp":{"$gt":time_start,"$lt":time_end}}]})
                 c1 = cursor.count()
@@ -132,8 +126,6 @@ class false_alert:
                 false_percentage = 100-true_percentage
                 resp_data = {"False alert percentage" : false_percentage,"True alert percentage" : true_percentage}
                 return json.dumps(resp_data)
-        else:
-            return "Error"
 
 class get_mainpage:    
     def GET(self):      
@@ -143,15 +135,12 @@ class get_mainpage:
         print(old_time)
         client_input = web.input()
 
-        query = client_input.query
-        if query =='start':
             cursor = alerts.find({"$and":[{"alert":"True"},{"timestamp":{"$gt":old_time,"$lt":new_time}}]})
             sum_time = sum_the_time(cursor,old_time,new_time)
             Mainchart_gage = sum_time/86400.0*100
             resp_data = {"Gage value":Mainchart_gage}
             return json.dumps(resp_data)
-        else:
-            return "Error"
+
 
 class get_contact_blocks:
     def GET(self):
