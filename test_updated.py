@@ -145,7 +145,7 @@ class get_mainpage:
 
         query = client_input.query
         if query =='start':
-            cursor = alerts.find({"$and":[{"alert":"True"},{"timestamp":{"$gt":old_time,"$lt":new_time}}]})
+            cursor = alerts.find({"$and":[{"alert":true},{"timestamp":{"$gt":old_time,"$lt":new_time}}]})
             sum_time = sum_the_time(cursor,old_time,new_time)
             Mainchart_gage = sum_time/86400.0*100
             resp_data = {"Gage value":Mainchart_gage}
