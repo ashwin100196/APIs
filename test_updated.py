@@ -130,7 +130,7 @@ class get_mainpage:
             cursor = alerts.find({"$and":[{"alert":'True'},{"timestamp":{"$gt":old_time,"$lt":new_time}}]})
             sum_time = sum_the_time(cursor,old_time,new_time)
             Mainchart_gage = sum_time/86400.0*100
-            resp_data = {"Gage value":Mainchart_gage}
+            resp_data = [{"Gage value":Mainchart_gage}]
             return json.dumps(resp_data)
         else:
             return "Error"
