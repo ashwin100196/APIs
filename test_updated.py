@@ -31,6 +31,7 @@ urls = (
     '/filterloc', 'populate_location',
     '/filtercc', 'populate_cctv',
     '/filtertype', 'populate_type',
+    '/recentalerts','recent_alerts'
 )
 app = web.application(urls, globals())
 
@@ -56,45 +57,36 @@ class alert_history:
         time_start = int(client_input.t_start)
         time_end = int(client_input.t_end)
 
-        print(query)
-        print(location_id)
-        print(cctv_id)
-        print(event_type)
-        print(time_start)
-        print(time_end)
+        #print(query)
+        #print(location_id)
+        #print(cctv_id)
+        #print(event_type)
+        #print(time_start)
+        #print(time_end)
 
         if query == 'alert-history':
             if event_type == 'all':
                 cursor = alerts.find({"$and":[{"alert":"True"},{"type":"person"},{"timestamp":{"$gt":time_start,"$lt":time_end}}]})
-                c1 = cursor.count()
                 sum1 = sum_the_time(cursor,time_start,time_end)
                 cursor = alerts.find({"$and":[{"alert":"True"},{"type":"hardhat"},{"timestamp":{"$gt":time_start,"$lt":time_end}}]})
-                c2 = cursor.count()
                 sum2 = sum_the_time(cursor,time_start,time_end)
                 cursor = alerts.find({"$and":[{"alert":"True"},{"type":"safetyglasses"},{"timestamp":{"$gt":time_start,"$lt":time_end}}]})
-                c3 = cursor.count()
                 sum3 = sum_the_time(cursor,time_start,time_end)
                 t_sum = sum1+sum2+sum3
                 alert_piechart_p1 = sum1/t_sum*100.0
                 alert_piechart_p2 = sum2/t_sum*100.0
                 alert_piechart_p3 = sum3/t_sum*100.0
                 remaining_pie = 100.0-alert_piechart_p1-alert_piechart_p2-alert_piechart_p3
-                true_alerts = c1+c2+c3
-                total_alerts = alerts.find({"timestamp":{"$gt":time_start,"$lt":time_end}}).count()
-                false_percentage = (1-(true_alerts/total_alerts))*100.0
-                resp_data = {"Percentage1":alert_piechart_p1,"Percentage2":alert_piechart_p2,"Percentage3":alert_piechart_p3,"Percentage4":remaining_pie}
+                resp_data = [{"Percentage":alert_piechart_p1},{"Percentage":alert_piechart_p2},{"Percentage":alert_piechart_p3},{"Percentage":remaining_pie}]
                 return json.dumps(resp_data)
             else:
-                print('hi')
+                #print('hi')
                 cursor = alerts.find({"$and":[{"alert":"True"},{"type":event_type},{"timestamp":{"$gt":time_start,"$lt":time_end}}]})
-                print(cursor.count())
-                true_alerts = cursor.count()
+                #print(cursor.count())
                 sum = sum_the_time(cursor,time_start,time_end)
                 piechart_percentage = sum/86400*100.0
                 remaining_pie = 100-piechart_percentage
-                total_alerts = alerts.find({"$and":[{"type":event_type},{"timestamp":{"$gt":time_start,"$lt":time_end}}]}).count()
-                false_percentage = (1-(true_alerts/total_alerts))*100
-                resp_data = {"Percentage1":piechart_percentage,"Percentage2":remaining_pie}
+                resp_data = [{"Percentage":piechart_percentage},{"Percentage":remaining_pie}]
                 return json.dumps(resp_data)
         else:
             return "Error"
@@ -122,7 +114,7 @@ class false_alert:
                 total_alerts = alerts.find({"timestamp":{"$gt":time_start,"$lt":time_end}}).count()
                 true_percentage = true_alerts/total_alerts*100.0
                 false_percentage = 100-true_percentage
-                resp_data = {"False alert percentage" : false_percentage,"True alert percentage" : true_percentage}
+                resp_data = [{"Percentage" : false_percentage},{"Percentage" : true_percentage}]
                 return json.dumps(resp_data)
             else:
                 cursor = alerts.find({"$and":[{"alert":"True"},{"type":event_type},{"timestamp":{"$gt":time_start,"$lt":time_end}}]})
@@ -130,7 +122,7 @@ class false_alert:
                 total_alerts = alerts.find({"$and":[{"type":event_type},{"timestamp":{"$gt":time_start,"$lt":time_end}}]}).count()
                 true_percentage = true_alerts/total_alerts*100.0
                 false_percentage = 100-true_percentage
-                resp_data = {"False alert percentage" : false_percentage,"True alert percentage" : true_percentage}
+                resp_data = [{"Percentage" : false_percentage},{"Percentage" : true_percentage}]
                 return json.dumps(resp_data)
         else:
             return "Error"
@@ -183,19 +175,51 @@ class get_contact_blocks:
 
 class populate_location:
     def GET(self):
-        resp_data = {"Location":[1,2,3]}
+        resp_data = [{"Location":'1'},{"Location":'2'},{"Location":'3'}]
         return json.dumps(resp_data)
 
 class populate_cctv:
     def GET(self):
-        resp_data = {"CCTV":[1,2,3]}
+        resp_data = [{"CCTV":'1'},{"CCTV":'2'},{"CCTV":'3'}]
         return json.dumps(resp_data)
 
 class populate_type:
     def GET(self):
-        resp_data = {"Event type":'human detected'}
+        resp_data = [{"Event type":'all'},{"Event type":'human detected'},{"Event type":'hard hat not worn'},{"Event type":'safety glasses missing'}]
         return json.dumps(resp_data)
-#,'hardhat not worn','safety glasses not worn']
+
+class recent_alerts:
+    def GET(self):
+        client_input = web.input()
+
+        query = client_input.query
+        location_id = client_input.l_id
+        cctv_id = client_input.cc_id
+        event_type = client_input.type
+        time_start = int(client_input.t_start)
+        time_end = int(client_input.t_end)
+
+        if query == 'list':
+            if event_type == 'all':
+                cursor = alerts.find({"$and":[{"alert":"True"},{"timestamp":{"$gt":time_start,"$lt":time_end}}]},{'_id': False})
+                j=[]
+                for alert in cursor:
+                    print(alert)
+                    j.append(alert)
+                return json.dumps(j)
+            else:
+                cursor = alerts.find({"$and":[{"alert":"True"},{"type":event_type},{"timestamp":{"$gt":time_start,"$lt":time_end}}]})
+                print(cursor.count())
+                true_alerts = cursor.count()
+                sum = sum_the_time(cursor,time_start,time_end)
+                piechart_percentage = sum/86400*100.0
+                remaining_pie = 100-piechart_percentage
+                total_alerts = alerts.find({"$and":[{"type":event_type},{"timestamp":{"$gt":time_start,"$lt":time_end}}]}).count()
+                false_percentage = (1-(true_alerts/total_alerts))*100
+                resp_data = [{"Percentage":piechart_percentage},{"Percentage":remaining_pie}]
+                return json.dumps(resp_data)
+        else:
+            return "Error"
 
 
 print("Server Started at:")
