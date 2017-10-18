@@ -204,20 +204,16 @@ class recent_alerts:
                 cursor = alerts.find({"$and":[{"alert":"True"},{"timestamp":{"$gt":time_start,"$lt":time_end}}]},{'_id': False})
                 j=[]
                 for alert in cursor:
-                    print(alert)
+                    #print(alert)
                     j.append(alert)
                 return json.dumps(j)
             else:
-                cursor = alerts.find({"$and":[{"alert":"True"},{"type":event_type},{"timestamp":{"$gt":time_start,"$lt":time_end}}]})
-                print(cursor.count())
-                true_alerts = cursor.count()
-                sum = sum_the_time(cursor,time_start,time_end)
-                piechart_percentage = sum/86400*100.0
-                remaining_pie = 100-piechart_percentage
-                total_alerts = alerts.find({"$and":[{"type":event_type},{"timestamp":{"$gt":time_start,"$lt":time_end}}]}).count()
-                false_percentage = (1-(true_alerts/total_alerts))*100
-                resp_data = [{"Percentage":piechart_percentage},{"Percentage":remaining_pie}]
-                return json.dumps(resp_data)
+                cursor = alerts.find({"$and":[{"alert":"True"},{"type":event_type},{"timestamp":{"$gt":time_start,"$lt":time_end}}]},{'_id': False})
+                j=[]
+                for alert in cursor:
+                    #print(alert)
+                    j.append(alert)
+                return json.dumps(j)
         else:
             return "Error"
 
