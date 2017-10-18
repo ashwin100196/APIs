@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 """
-Created on Tue Jul  4 14:37:57 2017
+Created on Tue Oct 11 14:37:57 2017
 
-@author: IN0120 | Sanat Dutta
+@author: TR100083 | Ashwin
 """
 
 """
@@ -174,9 +174,9 @@ class get_contact_blocks:
             for alarm in cursor:
                 if alarm['condition']:
                     icon_str3 = '<i class="fa fa-exclamation-circle" aria-hidden="true"></i>'
-            resp_data = {"Block string1":'Human detected',"Block icon string1":icon_str1,
-            "Block string2":'hardhat not worn',"Block icon string2":icon_str2,
-            "Block string3":'safety glasses not worn',"Block icon string3":icon_str3}
+            resp_data = [{"Block":'Human detected',"Block icon":icon_str1},
+            {"Block":'hardhat not worn',"Block icon":icon_str2},
+            {"Block":'safety glasses not worn',"Block icon":icon_str3}]
             return json.dumps(resp_data)
         else :
             return "Error"
