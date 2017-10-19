@@ -77,11 +77,16 @@ class alert_history:
             cursor = alerts.find({"$and":[{"alert":"True"},{"type":"safetyglasses"},{"timestamp":{"$gt":time_start,"$lt":time_end}}]})
             sum3 = sum_the_time(cursor,time_start,time_end)
             t_sum = sum1+sum2+sum3
-            alert_piechart_p1 = sum1/t_sum*100.0
-            alert_piechart_p2 = sum2/t_sum*100.0
-            alert_piechart_p3 = sum3/t_sum*100.0
-            remaining_pie = 100.0-alert_piechart_p1-alert_piechart_p2-alert_piechart_p3
-            resp_data = [{"Percentage":alert_piechart_p1},{"Percentage":alert_piechart_p2},{"Percentage":alert_piechart_p3},{"Percentage":remaining_pie}]
+            try:
+                alert_piechart_p1 = sum1/t_sum*100.0
+                alert_piechart_p2 = sum2/t_sum*100.0
+                alert_piechart_p3 = sum3/t_sum*100.0
+            except:
+                alert_piechart_p1 = sum1/1*100.0
+                alert_piechart_p2 = sum2/1*100.0
+                alert_piechart_p3 = sum3/1*100.0
+                remaining_pie = 100.0-alert_piechart_p1-alert_piechart_p2-alert_piechart_p3
+                resp_data = [{"Percentage":alert_piechart_p1},{"Percentage":alert_piechart_p2},{"Percentage":alert_piechart_p3},{"Percentage":remaining_pie}]
             return json.dumps(resp_data)
         else:
             #print('hi')
@@ -104,6 +109,7 @@ class false_alert:
 
         time_start = time_stamp(t_start)
         time_end = time_stamp(t_end)
+        print(time_start,time_end)
 
         if event_type == 'all':
             cursor = alerts.find({"$and":[{"alert":"True"},{"type":"person"},{"timestamp":{"$gt":time_start,"$lt":time_end}}]})
@@ -114,17 +120,25 @@ class false_alert:
             c3 = cursor.count()
             true_alerts = c1+c2+c3
             total_alerts = alerts.find({"timestamp":{"$gt":time_start,"$lt":time_end}}).count()
-            true_percentage = true_alerts/total_alerts*100.0
-            false_percentage = 100-true_percentage
-            resp_data = [{"Percentage" : false_percentage},{"Percentage" : true_percentage}]
+            try:
+                true_percentage = true_alerts/total_alerts*100.0
+                false_percentage = 100-true_percentage
+            except:
+                resp_data = [{"Percentage" : 100.0}]
+                return json.dumps(resp_data)
+            resp_data = [{"Percentage" : true_percentage},{"Percentage" : false_percentage}]
             return json.dumps(resp_data)
         else:
             cursor = alerts.find({"$and":[{"alert":"True"},{"type":event_type},{"timestamp":{"$gt":time_start,"$lt":time_end}}]})
             true_alerts = cursor.count()
             total_alerts = alerts.find({"$and":[{"type":event_type},{"timestamp":{"$gt":time_start,"$lt":time_end}}]}).count()
-            true_percentage = true_alerts/total_alerts*100.0
-            false_percentage = 100-true_percentage
-            resp_data = [{"Percentage" : false_percentage},{"Percentage" : true_percentage}]
+            try:
+                true_percentage = true_alerts/total_alerts*100.0
+                false_percentage = 100-true_percentage
+            except:
+                resp_data = [{"Percentage" : 100.0}]
+                return json.dumps(resp_data)
+            resp_data = [{"Percentage" : true_percentage},{"Percentage" : false_percentage}]
             return json.dumps(resp_data)
 
 class get_mainpage:    
