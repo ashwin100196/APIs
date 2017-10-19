@@ -13,6 +13,7 @@ MAIN FILE
 
 import web
 import time
+import datetime
 
 # Create your views here.
 
@@ -219,6 +220,7 @@ class recent_alerts:
             j=[]
             for alert in cursor:
                 #print(alert)
+                alert['timestamp'] = datetime.datetime.fromtimestamp(int(alert['timestamp'])).strftime('%d-%m-%Y %H:%M:%S')
                 j.append(alert)
             return json.dumps(j)
         else:
@@ -226,6 +228,7 @@ class recent_alerts:
             j=[]
             for alert in cursor:
                 #print(alert)
+                alert['timestamp'] = datetime.datetime.fromtimestamp(int(alert['timestamp'])).strftime('%d-%m-%Y %H:%M:%S')
                 j.append(alert)
             return json.dumps(j)
 
