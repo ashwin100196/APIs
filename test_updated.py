@@ -35,6 +35,10 @@ urls = (
 )
 app = web.application(urls, globals())
 
+def time_stamp(t):
+    timestamp = time.mktime(time.strptime(t,'%Y/%m/%d %H:%M:%S'))
+    return timestamp
+
 def sum_the_time(cursor,time_start,time_end):
     temp_time = time_start
     sum=0.0
@@ -53,8 +57,11 @@ class alert_history:
         location_id = client_input.l_id
         cctv_id = client_input.cc_id
         event_type = client_input.type
-        time_start = int(client_input.t_start)
-        time_end = int(client_input.t_end)
+        t_start = client_input.t_start
+        t_end = client_input.t_end
+
+        time_start = time_stamp(t_start)
+        time_end = time_stamp(t_end)
 
         #print(query)
         #print(location_id)
@@ -92,8 +99,11 @@ class false_alert:
         location_id = client_input.l_id
         cctv_id = client_input.cc_id
         event_type = client_input.type
-        time_start = int(client_input.t_start)
-        time_end = int(client_input.t_end)
+        t_start = client_input.t_start
+        t_end = client_input.t_end
+
+        time_start = time_stamp(t_start)
+        time_end = time_stamp(t_end)
 
         if event_type == 'all':
             cursor = alerts.find({"$and":[{"alert":"True"},{"type":"person"},{"timestamp":{"$gt":time_start,"$lt":time_end}}]})
@@ -184,8 +194,11 @@ class recent_alerts:
         location_id = client_input.l_id
         cctv_id = client_input.cc_id
         event_type = client_input.type
-        time_start = int(client_input.t_start)
-        time_end = int(client_input.t_end)
+        t_start = client_input.t_start
+        t_end = client_input.t_end
+
+        time_start = time_stamp(t_start)
+        time_end = time_stamp(t_end)
 
         if event_type == 'all':
             cursor = alerts.find({"$and":[{"alert":"True"},{"timestamp":{"$gt":time_start,"$lt":time_end}}]},{'_id': False})
