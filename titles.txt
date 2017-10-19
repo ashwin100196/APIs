@@ -1,0 +1,12 @@
+Gage chart title: HSE Risk
+
+need a comment for the gage chart : Alerts in the last 24 hrs are considered.
+
+Conact blocks title :  HSE Alerts
+
+Alert history pie chart title : HSE Alert History (legend in the order 
+[Human detected, Hard hat not worn, Safety glasses not worn,No alerts])
+
+False alerts pie chart title : False Alerts flagged (legend in the order [True,False])
+
+Recent Alerts title : Recent Alerts (columns : [Time, Type, Flagged as T/F])

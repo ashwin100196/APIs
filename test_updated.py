@@ -85,8 +85,8 @@ class alert_history:
                 alert_piechart_p1 = sum1/1*100.0
                 alert_piechart_p2 = sum2/1*100.0
                 alert_piechart_p3 = sum3/1*100.0
-                remaining_pie = 100.0-alert_piechart_p1-alert_piechart_p2-alert_piechart_p3
-                resp_data = [{"Percentage":alert_piechart_p1},{"Percentage":alert_piechart_p2},{"Percentage":alert_piechart_p3},{"Percentage":remaining_pie}]
+            remaining_pie = 100.0-alert_piechart_p1-alert_piechart_p2-alert_piechart_p3
+            resp_data = [{"Event Name":"Human detected","Percentage":alert_piechart_p1},{"Event Name":"Hard hat not worn","Percentage":alert_piechart_p2},{"Event Name":"Safety glasses not worn","Percentage":alert_piechart_p3},{"Event Name":"No alerts","Percentage":remaining_pie}]
             return json.dumps(resp_data)
         else:
             #print('hi')
@@ -95,7 +95,7 @@ class alert_history:
             sum = sum_the_time(cursor,time_start,time_end)
             piechart_percentage = sum/86400*100.0
             remaining_pie = 100-piechart_percentage
-            resp_data = [{"Percentage":piechart_percentage},{"Percentage":remaining_pie}]
+            resp_data = [{"Event Name":event_type,"Percentage":piechart_percentage},{"Event Name":"No alerts","Percentage":remaining_pie}]
             return json.dumps(resp_data)
 
 class false_alert:    
@@ -126,7 +126,7 @@ class false_alert:
             except:
                 resp_data = [{"Percentage" : 100.0}]
                 return json.dumps(resp_data)
-            resp_data = [{"Percentage" : true_percentage},{"Percentage" : false_percentage}]
+            resp_data = [{"Event Name":"True","Percentage" : true_percentage},{"Event Name":"False","Percentage" : false_percentage}]
             return json.dumps(resp_data)
         else:
             cursor = alerts.find({"$and":[{"alert":"True"},{"type":event_type},{"timestamp":{"$gt":time_start,"$lt":time_end}}]})
@@ -138,7 +138,7 @@ class false_alert:
             except:
                 resp_data = [{"Percentage" : 100.0}]
                 return json.dumps(resp_data)
-            resp_data = [{"Percentage" : true_percentage},{"Percentage" : false_percentage}]
+            resp_data = [{"Event Name":"True","Percentage" : true_percentage},{"Event Name":"False","Percentage" : false_percentage}]
             return json.dumps(resp_data)
 
 class get_mainpage:    
@@ -215,14 +215,14 @@ class recent_alerts:
         time_end = time_stamp(t_end)
 
         if event_type == 'all':
-            cursor = alerts.find({"$and":[{"alert":"True"},{"timestamp":{"$gt":time_start,"$lt":time_end}}]},{'_id': False})
+            cursor = alerts.find({"$and":[{"alert":"True"},{"condition":True},{"timestamp":{"$gt":time_start,"$lt":time_end}}]},{'_id': False,'condition': False})
             j=[]
             for alert in cursor:
                 #print(alert)
                 j.append(alert)
             return json.dumps(j)
         else:
-            cursor = alerts.find({"$and":[{"alert":"True"},{"type":event_type},{"timestamp":{"$gt":time_start,"$lt":time_end}}]},{'_id': False})
+            cursor = alerts.find({"$and":[{"alert":"True"},{"condition":True},{"type":event_type},{"timestamp":{"$gt":time_start,"$lt":time_end}}]},{'_id': False,'condition': False})
             j=[]
             for alert in cursor:
                 #print(alert)
