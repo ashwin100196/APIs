@@ -200,7 +200,7 @@ class populate_cctv:
 
 class populate_type:
     def GET(self):
-        resp_data = [{"Event type":'all'},{"Event type":'human detected'},{"Event type":'hard hat not worn'},{"Event type":'safety glasses missing'}]
+        resp_data = [{"Event type":'all'},{"Event type":'human detected'},{"Event type":'hard hat not worn'},{"Event type":'safety glasses missing'},{"Event type":'closed toed shoes not worn'}]
         return json.dumps(resp_data)
 
 class recent_alerts:
