@@ -71,13 +71,13 @@ class alert_history:
         #print(time_start)
         #print(time_end)
         if event_type == 'all':
-            cursor = alerts.find({"$and":[{"alert":"True"},{"type":"Human detected"},{"timestamp":{"$gt":time_start,"$lt":time_end}}]})
+            cursor = alerts.find({"$and":[{"alert":True},{"type":"Human detected"},{"timestamp":{"$gt":time_start,"$lt":time_end}}]})
             sum1 = sum_the_time(cursor,time_start,time_end)
-            cursor = alerts.find({"$and":[{"alert":"True"},{"type":"hardhat"},{"timestamp":{"$gt":time_start,"$lt":time_end}}]})
+            cursor = alerts.find({"$and":[{"alert":True},{"type":"hardhat"},{"timestamp":{"$gt":time_start,"$lt":time_end}}]})
             sum2 = sum_the_time(cursor,time_start,time_end)
-            cursor = alerts.find({"$and":[{"alert":"True"},{"type":"safetyglasses"},{"timestamp":{"$gt":time_start,"$lt":time_end}}]})
+            cursor = alerts.find({"$and":[{"alert":True},{"type":"safetyglasses"},{"timestamp":{"$gt":time_start,"$lt":time_end}}]})
             sum3 = sum_the_time(cursor,time_start,time_end)
-            t_sum = t_end-t_start
+            t_sum = time_end-time_start
             try:
                 alert_piechart_p1 = sum1/t_sum*100.0
                 alert_piechart_p2 = sum2/t_sum*100.0
@@ -91,10 +91,10 @@ class alert_history:
             return json.dumps(resp_data)
         else:
             #print('hi')
-            cursor = alerts.find({"$and":[{"alert":"True"},{"type":event_type},{"timestamp":{"$gt":time_start,"$lt":time_end}}]})
+            cursor = alerts.find({"$and":[{"alert":True},{"type":event_type},{"timestamp":{"$gt":time_start,"$lt":time_end}}]})
             #print(cursor.count())
             sum = sum_the_time(cursor,time_start,time_end)
-            piechart_percentage = sum/(t_end-t_start)*100.0
+            piechart_percentage = sum/(time_end-time_start)*100.0
             remaining_pie = 100-piechart_percentage
             resp_data = [{"Event Name":event_type,"Percentage":piechart_percentage},{"Event Name":"No alerts","Percentage":remaining_pie}]
             return json.dumps(resp_data)
@@ -113,11 +113,11 @@ class false_alert:
         print(time_start,time_end)
 
         if event_type == 'all':
-            cursor = alerts.find({"$and":[{"alert":"True"},{"type":"Human detected"},{"timestamp":{"$gt":time_start,"$lt":time_end}}]})
+            cursor = alerts.find({"$and":[{"alert":True},{"type":"Human detected"},{"timestamp":{"$gt":time_start,"$lt":time_end}}]})
             c1 = cursor.count()
-            cursor = alerts.find({"$and":[{"alert":"True"},{"type":"hardhat"},{"timestamp":{"$gt":time_start,"$lt":time_end}}]})
+            cursor = alerts.find({"$and":[{"alert":True},{"type":"hardhat"},{"timestamp":{"$gt":time_start,"$lt":time_end}}]})
             c2 = cursor.count()
-            cursor = alerts.find({"$and":[{"alert":"True"},{"type":"safetyglasses"},{"timestamp":{"$gt":time_start,"$lt":time_end}}]})
+            cursor = alerts.find({"$and":[{"alert":True},{"type":"safetyglasses"},{"timestamp":{"$gt":time_start,"$lt":time_end}}]})
             c3 = cursor.count()
             true_alerts = c1+c2+c3
             total_alerts = alerts.find({"timestamp":{"$gt":time_start,"$lt":time_end}}).count()
@@ -130,7 +130,7 @@ class false_alert:
             resp_data = [{"Event Name":"True","Percentage" : true_percentage},{"Event Name":"False","Percentage" : false_percentage}]
             return json.dumps(resp_data)
         else:
-            cursor = alerts.find({"$and":[{"alert":"True"},{"type":event_type},{"timestamp":{"$gt":time_start,"$lt":time_end}}]})
+            cursor = alerts.find({"$and":[{"alert":True},{"type":event_type},{"timestamp":{"$gt":time_start,"$lt":time_end}}]})
             true_alerts = cursor.count()
             total_alerts = alerts.find({"$and":[{"type":event_type},{"timestamp":{"$gt":time_start,"$lt":time_end}}]}).count()
             try:
@@ -152,7 +152,7 @@ class get_mainpage:
 
         query = client_input.query
         if query =='start':
-            cursor = alerts.find({"$and":[{"alert":'True'},{"timestamp":{"$gt":old_time,"$lt":new_time}}]})
+            cursor = alerts.find({"$and":[{"alert":True},{"timestamp":{"$gt":old_time,"$lt":new_time}}]})
             sum_time = sum_the_time(cursor,old_time,new_time)
             if sum_time<1800:
                 Mainchart_gage = sum_time/1800.0*20
@@ -174,21 +174,21 @@ class get_contact_blocks:
             icon_str1 = ''
             icon_str2 = ''
             icon_str3 = ''
-            cursor = alerts.find({"$and":[{"alert":"True"},{"type":"Human detected"}]} ).sort([("$natural" , -1)]).limit(1);
+            cursor = alerts.find({"$and":[{"alert":True},{"type":"Human detected"}]} ).sort([("$natural" , -1)]).limit(1);
             for alarm in cursor:
                 if alarm['condition']:
                     icon_str1 = '<i class="fa fa-exclamation-circle" aria-hidden="true"></i>'
-            cursor = alerts.find( {"$and":[{"alert":"True"},{"type":"hardhat"}]} ).sort([("$natural" , -1)]).limit(1);
+            cursor = alerts.find( {"$and":[{"alert":True},{"type":"hardhat"}]} ).sort([("$natural" , -1)]).limit(1);
             for alarm in cursor:
                 if alarm['condition']:
                     icon_str2 = '<i class="fa fa-exclamation-circle" aria-hidden="true"></i>'
-            cursor = alerts.find( {"$and":[{"alert":"True"},{"type":"safetyglasses"}]} ).sort([("$natural" , -1)]).limit(1);
+            cursor = alerts.find( {"$and":[{"alert":True},{"type":"safetyglasses"}]} ).sort([("$natural" , -1)]).limit(1);
             for alarm in cursor:
                 if alarm['condition']:
                     icon_str3 = '<i class="fa fa-exclamation-circle" aria-hidden="true"></i>'
             resp_data = [{"Block":'Human detected',"Block icon":icon_str1},
-            {"Block":'hardhat not worn',"Block icon":icon_str2},
-            {"Block":'safety glasses not worn',"Block icon":icon_str3}]
+            {"Block":'Hardhat not worn',"Block icon":icon_str2},
+            {"Block":'Safety glasses not worn',"Block icon":icon_str3}]
             return json.dumps(resp_data)
         else :
             return "Error"
@@ -223,19 +223,19 @@ class recent_alerts:
         time_end = time_stamp(t_end)
 
         if event_type == 'all':
-            cursor = alerts.find({"$and":[{"alert":"True"},{"condition":True},{"timestamp":{"$gt":time_start,"$lt":time_end}}]},{'_id': False,'condition': False,'cc_id':False})
+            cursor = alerts.find({"$and":[{"alert":True},{"condition":True},{"timestamp":{"$gt":time_start,"$lt":time_end}}]},{'_id': False,'condition': False,'cc_id':False,'alert':False})
             j=[]
             for alert in cursor:
                 #print(alert)
-                alert['timestamp'] = datetime.datetime.fromtimestamp(int(alert['timestamp']+19800)).strftime('%d-%m-%Y %H:%M:%S')
+                alert['timestamp'] = datetime.datetime.fromtimestamp(int(alert['timestamp'])).strftime('%d-%m-%Y %H:%M:%S')
                 j.append(alert)
             return json.dumps(j)
         else:
-            cursor = alerts.find({"$and":[{"alert":"True"},{"condition":True},{"type":event_type},{"timestamp":{"$gt":time_start,"$lt":time_end}}]},{'_id': False,'condition': False,'cc_id':False})
+            cursor = alerts.find({"$and":[{"alert":True},{"condition":True},{"type":event_type},{"timestamp":{"$gt":time_start,"$lt":time_end}}]},{'_id': False,'condition': False,'cc_id':False,'alert':False})
             j=[]
             for alert in cursor:
                 #print(alert)
-                alert['timestamp'] = datetime.datetime.fromtimestamp(int(alert['timestamp']+19800)).strftime('%d-%m-%Y %H:%M:%S')
+                alert['timestamp'] = datetime.datetime.fromtimestamp(int(alert['timestamp'])).strftime('%d-%m-%Y %H:%M:%S')
                 j.append(alert)
             return json.dumps(j)
 
