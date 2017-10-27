@@ -87,7 +87,10 @@ class alert_history:
                 alert_piechart_p2 = sum2/1*100.0
                 alert_piechart_p3 = sum3/1*100.0
             remaining_pie = 100.0-alert_piechart_p1-alert_piechart_p2-alert_piechart_p3
-            resp_data = [{"Event Name":"Human detected","Percentage":alert_piechart_p1},{"Event Name":"Hard hat not worn","Percentage":alert_piechart_p2},{"Event Name":"Safety glasses not worn","Percentage":alert_piechart_p3},{"Event Name":"No alerts","Percentage":remaining_pie}]
+            resp_data = [{"Event Name":"Human detected","Percentage":alert_piechart_p1},{"Event Name":"Hard hat not worn","Percentage":alert_piechart_p2},
+            {"Event Name":"Safety glasses not worn","Percentage":alert_piechart_p3},{"Event Name":'Closed toed shoes not worn',"Percentage":0.0},
+            {"Event Name":'Gloves not worn',"Percentage":0.0},{"Event Name":'Spill detection',"Percentage":0.0},{"Event Name":'Coupling breakage detection',"Percentage":0.0},
+            {"Event Name":"No alerts","Percentage":remaining_pie}]
             return json.dumps(resp_data)
         else:
             #print('hi')
@@ -207,7 +210,7 @@ class populate_type:
     def GET(self):
         resp_data = [{"Event type":'all'},{"Event type":'Human detected'},{"Event type":'Hard hat not worn'},
         {"Event type":'Safety glasses missing'},{"Event type":'Closed toed shoes not worn'},
-        {"Event type":'Gloves not worn(ESD protection)'},{"Event type":'Spill detection'},{"Event type":'Coupling breakage detection'}]
+        {"Event type":'Gloves not worn'},{"Event type":'Spill detection'},{"Event type":'Coupling breakage detection'}]
         return json.dumps(resp_data)
 
 class recent_alerts:
