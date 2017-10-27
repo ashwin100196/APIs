@@ -90,7 +90,7 @@ class alert_history:
             resp_data = [{"Event Name":"Human detected","Percentage":alert_piechart_p1},{"Event Name":"Hard hat not worn","Percentage":alert_piechart_p2},
             {"Event Name":"Safety glasses not worn","Percentage":alert_piechart_p3},{"Event Name":'Closed toed shoes not worn',"Percentage":0.0},
             {"Event Name":'Gloves not worn',"Percentage":0.0},{"Event Name":'Spill detection',"Percentage":0.0},{"Event Name":'Coupling breakage detection',"Percentage":0.0},
-            {"Event Name":"No alerts","Percentage":remaining_pie}]
+            {"Event Name":'Hearing protection not worn',"Percentage":0.0},{"Event Name":"No alerts","Percentage":remaining_pie}]
             return json.dumps(resp_data)
         else:
             #print('hi')
