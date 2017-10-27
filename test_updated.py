@@ -89,7 +89,7 @@ class alert_history:
             remaining_pie = 100.0-alert_piechart_p1-alert_piechart_p2-alert_piechart_p3
             resp_data = [{"Event Name":"Human detected","Percentage":alert_piechart_p1},{"Event Name":"Hard hat not worn","Percentage":alert_piechart_p2},
             {"Event Name":"Safety glasses not worn","Percentage":alert_piechart_p3},{"Event Name":'Closed toed shoes not worn',"Percentage":0.0},
-            {"Event Name":'Gloves not worn',"Percentage":0.0},{"Event Name":'Spill detection',"Percentage":0.0},{"Event Name":'Coupling breakage detection',"Percentage":0.0},
+            {"Event Name":'Gloves not worn',"Percentage":0.0},{"Event Name":'Spill detected',"Percentage":0.0},{"Event Name":'Coupling breakage detected',"Percentage":0.0},
             {"Event Name":'Hearing protection not worn',"Percentage":0.0},{"Event Name":"No alerts","Percentage":remaining_pie}]
             return json.dumps(resp_data)
         else:
@@ -191,7 +191,12 @@ class get_contact_blocks:
                     icon_str3 = '<i class="fa fa-exclamation-circle" aria-hidden="true"></i>'
             resp_data = [{"Block":'Human detected',"Block icon":icon_str1},
             {"Block":'Hardhat not worn',"Block icon":icon_str2},
-            {"Block":'Safety glasses not worn',"Block icon":icon_str3}]
+            {"Block":'Safety glasses not worn',"Block icon":icon_str3},
+            {"Block":'Closed toed shoes not worn',"Block icon":''},
+            {"Block":'Gloves not worn',"Block icon":''},
+            {"Block":'Spill detected',"Block icon":''},
+            {"Block":'Coupling breakage detected',"Block icon":''},
+            {"Block":'Hearing protection not worn',"Block icon":''}]
             return json.dumps(resp_data)
         else :
             return "Error"
@@ -210,7 +215,7 @@ class populate_type:
     def GET(self):
         resp_data = [{"Event type":'all'},{"Event type":'Human detected'},{"Event type":'Hard hat not worn'},
         {"Event type":'Safety glasses missing'},{"Event type":'Closed toed shoes not worn'},
-        {"Event type":'Gloves not worn'},{"Event type":'Spill detection'},{"Event type":'Coupling breakage detection'}]
+        {"Event type":'Gloves not worn'},{"Event type":'Spill detected'},{"Event type":'Coupling breakage detected'}]
         return json.dumps(resp_data)
 
 class recent_alerts:
