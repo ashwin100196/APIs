@@ -1,1 +1,1 @@
-web: python test_updated.py
+web: python test_updated_v1.py

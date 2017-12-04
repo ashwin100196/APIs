@@ -10,21 +10,22 @@ Created on Tue Oct 11 14:37:57 2017
 MAIN FILE
 ###################################################################
 """
-
+#imports
 import web
 import date
 import time
 import datetime
 
-# Create your views here.
+
 
 import json
 from pymongo import MongoClient
+#connect to mongo db
 client = MongoClient('mongodb://heroku_z9l8tf4w:g3l5j5hbh755td1sm8e0pf30er@ds117605.mlab.com:17605/heroku_z9l8tf4w')
 db = client.get_database()
 alerts = db.alarm_history
 
-
+#set url paths
 urls = (
     '/alerthistory', 'alert_history',
     '/falsealerts','false_alert',
@@ -37,10 +38,12 @@ urls = (
 )
 app = web.application(urls, globals())
 
+#converting time to unix
 def time_stamp(t):
     timestamp = time.mktime(time.strptime(t,'%Y/%m/%d %H:%M:%S'))
     return timestamp
 
+#to calculate total duration of time when alarm was on.
 def sum_the_time(cursor,time_start,time_end):
     temp_time = time_start
     sum=0.0
@@ -52,8 +55,10 @@ def sum_the_time(cursor,time_start,time_end):
             temp_time = alarm['timestamp']
     return sum
 
+#class to deliver alert history
 class alert_history:    
     def GET(self):  
+        #inputs
         client_input = web.input()
 
         location_id = client_input.l_id
@@ -71,6 +76,9 @@ class alert_history:
         #print(event_type)
         #print(time_start)
         #print(time_end)
+
+        #obtain alert history for each event from db
+        #for all events
         if event_type == 'all':
             cursor = alerts.find({"$and":[{"alert":True},{"type":"Human detected"},{"timestamp":{"$gt":time_start,"$lt":time_end}}]})
             sum1 = sum_the_time(cursor,time_start,time_end)
@@ -79,6 +87,7 @@ class alert_history:
             cursor = alerts.find({"$and":[{"alert":True},{"type":"safetyglasses"},{"timestamp":{"$gt":time_start,"$lt":time_end}}]})
             sum3 = sum_the_time(cursor,time_start,time_end)
             t_sum = time_end-time_start
+            #convert to percentage values
             try:
                 alert_piechart_p1 = sum1/t_sum*100.0
                 alert_piechart_p2 = sum2/t_sum*100.0
@@ -94,6 +103,7 @@ class alert_history:
             {"Event Name":'Hearing protection not worn',"Percentage":0.0},{"Event Name":"No alerts","Percentage":remaining_pie}]
             return json.dumps(resp_data)
         else:
+        #for a single event
             #print('hi')
             cursor = alerts.find({"$and":[{"alert":True},{"type":event_type},{"timestamp":{"$gt":time_start,"$lt":time_end}}]})
             #print(cursor.count())
@@ -103,6 +113,7 @@ class alert_history:
             resp_data = [{"Event Name":event_type,"Percentage":piechart_percentage},{"Event Name":"No alerts","Percentage":remaining_pie}]
             return json.dumps(resp_data)
 
+#false alert updating -- ignore this block
 class false_alert:    
     def GET(self):  
         client_input = web.input()
@@ -146,6 +157,7 @@ class false_alert:
             resp_data = [{"Event Name":"True","Percentage" : true_percentage},{"Event Name":"False","Percentage" : false_percentage}]
             return json.dumps(resp_data)
 
+#obtains the overall risk as a gage valure
 class get_mainpage:    
     def GET(self):      
         new_time = time.time()
