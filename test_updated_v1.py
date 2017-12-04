@@ -36,40 +36,40 @@ def time_stamp(t):
     return timestamp
 
 def sum_the_count(cursor):
+    flag = 1
     total = 0.0
     prev = 0
+    curval = 0
     alert_count = cursor.count()
+    if not alert_count : 
+        return total, curval
     for alarm in cursor:
+        if flag : 
+            curval = alarm['count']
+            flag = 0
         if alarm['count']>prev:
             total += alarm['count']-prev
         prev = alarm['count']
-    return total/alert_count
+    return (total/alert_count, curval)
 
 class get_home:    
-    def get_table(index,time_start,time_end):
+    def get_table(self,index):
         #initialize maximum and minimum values
         arr_hlth_min = [0.0,2.0,5.0,4.0,0.0]
         arr_hlth_max = [10.0,15.0,13.0,8.0,1.0]
         events = ["Human detected","hardhat","safetyglasses","hearingprotection","spill"]
-
-        cursor = alerts.find({"$and":[{"type":events[index]},{"timestamp":{"$gt":time_start,"$lt":time_end}}]}).sort([("timestamp" , -1)])
-        avg = sum_the_count(cursor,time_start,time_end)
-        if(cursor.count()>0):
-            curval = cursor.limit(1)[0]['count']
-            rating = 1 + int((arr_hlth_max[index]-curval)/(arr_hlth_max[index]-arr_hlth_min[index])*5)
-            if rating >5: rating =5
-            if rating<0 : rating = 0
-            if rating<=2:
-                risk = "High"
-            else if rating ==3:
-                risk = "Moderate"
-            else :
-                risk = "Low"
-        else:
-            curval = 0
-            avg = 0
-            rating = 5
+        cursor = alerts.find({"$and":[{"type":events[index]},{"timestamp":{"$gt":self.time_start,"$lt":self.time_end}}]}).sort([("timestamp" , -1)])
+        avg,curval = sum_the_count(cursor)
+        rating = 1 + int((arr_hlth_max[index]-curval)/(arr_hlth_max[index]-arr_hlth_min[index])*5)
+        if rating >5: rating =5
+        if rating<0 : rating = 0
+        if rating<=2:
+            risk = "High"
+        elif rating ==3:
+            risk = "Moderate"
+        else :
             risk = "Low"
+
         response = {"Event name":events[index],"Health zone min": arr_hlth_min[index], "Health zone max": arr_hlth_max[index],
         "Current value":curval,"Average":avg, "Rating":rating, "Risk" : risk}
         return response
@@ -79,12 +79,11 @@ class get_home:
 
         location_id = client_input.l_id
         cctv_id = client_input.cc_id
-        event_type = client_input.type
         t_start = client_input.t_start
         t_end = client_input.t_end
 
-        time_start = time_stamp(t_start)
-        time_end = time_stamp(t_end)
+        self.time_start = time_stamp(t_start)
+        self.time_end = time_stamp(t_end)
         
 
         #print(query)
@@ -93,15 +92,14 @@ class get_home:
         #print(event_type)
         #print(time_start)
         #print(time_end)
-        if event_type == 'all':
-            resp1 = get_table(0,time_start,time_end)
-            resp2 = get_table(1,time_start,time_end)
-            resp3 = get_table(2,time_start,time_end)
-            resp4 = get_table(3,time_start,time_end)
-            resp5 = get_table(4,time_start,time_end)
-            
-            resp_data = [resp1,resp2,resp3,resp4,resp5]
-            return json.dumps(resp_data)
+        resp1 = self.get_table(0)
+        resp2 = self.get_table(1)
+        resp3 = self.get_table(2)
+        resp4 = self.get_table(3)
+        resp5 = self.get_table(4)
+        
+        resp_data = [resp1,resp2,resp3,resp4,resp5]
+        return json.dumps(resp_data)
 
 
 class get_contact_blocks:
@@ -146,8 +144,8 @@ class get_timeline:
         time_start = time_stamp(t_start)
         time_end = time_stamp(t_end)
 
-        cursor = alerts.find({"$and":[{"timestamp":{"$gt":time_start,"$lt":time_end}}]},{'_id': False}).sort([("timestamp" , 1)]
-        j=[]
+        cursor = alerts.find({"$and":[{"timestamp":{"$gt":time_start,"$lt":time_end}}]},{'_id': False}).sort([("timestamp" , 1)])
+        j = []
         for alert in cursor:
             #print(alert)
             alert['timestamp'] = datetime.datetime.fromtimestamp(int(alert['timestamp']+19800)).strftime('%d-%m-%Y %H:%M:%S')
