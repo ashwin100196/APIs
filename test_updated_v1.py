@@ -165,7 +165,7 @@ class get_timeline:
             { "caption": '3 Mar', "date": datetime.date(2015, 3, 3).isoformat(), "title": 'Hard hat', "content": '0' },
         ]
 
-        return timeline
+        return json.dumps(timeline)
 
 
 print("Server Started at:")
