@@ -135,22 +135,37 @@ class get_contact_blocks:
 
 class get_timeline:
     def GET(self):
-        client_input = web.input()
-        location_id = client_input.l_id
-        cctv_id = client_input.cc_id
-        t_start = client_input.t_start
-        t_end = client_input.t_end
+        # client_input = web.input()
+        # location_id = client_input.l_id
+        # cctv_id = client_input.cc_id
+        # t_start = client_input.t_start
+        # t_end = client_input.t_end
 
-        time_start = time_stamp(t_start)
-        time_end = time_stamp(t_end)
+        # time_start = time_stamp(t_start)
+        # time_end = time_stamp(t_end)
 
-        cursor = alerts.find({"$and":[{"timestamp":{"$gt":time_start,"$lt":time_end}}]},{'_id': False}).sort([("timestamp" , 1)])
-        j = []
-        for alert in cursor:
-            #print(alert)
-            alert['timestamp'] = datetime.datetime.fromtimestamp(int(alert['timestamp']+19800)).strftime('%d-%m-%Y %H:%M:%S')
-            j.append(alert)
-        return json.dumps(j)
+        # cursor = alerts.find({"$and":[{"timestamp":{"$gt":time_start,"$lt":time_end}}]},{'_id': False}).sort([("timestamp" , 1)])
+        # j = []
+        # for alert in cursor:
+        #     #print(alert)
+        #     alert['timestamp'] = datetime.datetime.fromtimestamp(int(alert['timestamp']+19800)).strftime('%d-%m-%Y %H:%M:%S')
+        #     j.append(alert)
+        # return json.dumps(j)
+        timeline = [
+            { "caption": '16 Jan', "date": datetime.date(2014, 1, 16), "selected": True, "title": 'Human detected', "content": 0 },
+            { "caption": '28 Feb', "date": datetime.date(2014, 2, 28), "title": 'Hard hat', "content": 0 },
+            { "caption": '20 Mar', "date": datetime.date(2014, 3, 20), "title": 'Hard hat', "content": 0 },
+            { "caption": '20 May', "date": datetime.date(2014, 5, 20), "title": 'Hard hat', "content": 0 },
+            { "caption": '09 Jul', "date": datetime.date(2014, 7, 9), "title": 'Hard hat', "content": 0 },
+            { "caption": '30 Aug', "date": datetime.date(2014, 8, 30), "title": 'Hard hat', "content": 0 },
+            { "caption": '15 Sep', "date": datetime.date(2014, 9, 15), "title": 'Hard hat', "content": 0 },
+            { "caption": '01 Nov', "date": datetime.date(2014, 11, 1), "title": 'Hard hat', "content": 0 },
+            { "caption": '10 Dec', "date": datetime.date(2014, 12, 10), "title": 'Hard hat', "content": 0 },
+            { "caption": '29 Jan', "date": datetime.date(2015, 1, 19), "title": 'Hard hat', "content": 0 },
+            { "caption": '3 Mar', "date": datetime.date(2015, 3, 3), "title": 'Hard hat', "content": 0 },
+        ]
+
+        return timeline
 
 
 print("Server Started at:")
