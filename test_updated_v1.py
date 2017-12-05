@@ -151,6 +151,8 @@ class get_timeline:
         #     alert['timestamp'] = datetime.datetime.fromtimestamp(int(alert['timestamp']+19800)).strftime('%d-%m-%Y %H:%M:%S')
         #     j.append(alert)
         # return json.dumps(j)
+        web.header('Content-Type', 'text/json')
+        web.header('Access-Control-Allow-Origin','*')
         timeline = [
             { "caption": '16 Jan', "date": datetime.date(2014, 1, 16).isoformat(), "selected": True, "title": 'Human detected', "content": '0' },
             { "caption": '28 Feb', "date": datetime.date(2014, 2, 28).isoformat(), "title": 'Hard hat', "content": '0' },
