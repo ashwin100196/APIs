@@ -155,7 +155,7 @@ class get_timeline:
         web.header('Access-Control-Allow-Origin','*')
         timeline = [
             { "caption": '16 Jan', "date": datetime.datetime(2014, 1, 16).isoformat(), "selected": True, "title": 'Human detected', "content": '0' },
-            # { "caption": '28 Feb', "date": datetime.datetime(2014, 2, 28).isoformat(), "title": 'Hard hat', "content": '0' },
+            { "caption": '28 Feb', "date": datetime.datetime(2014, 2, 28).isoformat(), "selected": False, "title": 'Hard hat', "content": '0' },
             # { "caption": '20 Mar', "date": datetime.datetime(2014, 3, 20).isoformat(), "title": 'Hard hat', "content": '0' },
             # { "caption": '20 May', "date": datetime.datetime(2014, 5, 20).isoformat(), "title": 'Hard hat', "content": '0' },
             # { "caption": '09 Jul', "date": datetime.datetime(2014, 7, 9).isoformat(), "title": 'Hard hat', "content": '0' },
