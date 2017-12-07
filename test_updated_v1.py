@@ -154,17 +154,17 @@ class get_timeline:
         web.header('Content-Type', 'text/json')
         web.header('Access-Control-Allow-Origin','*')
         timeline = [
-            { "caption": '16 Jan', "date": datetime.datetime(2014, 1, 16).isoformat(), "selected": True, "title": 'Human detected', "content": '0' },
-            { "caption": '28 Feb', "date": datetime.datetime(2014, 2, 28).isoformat(), "selected": False, "title": 'Hard hat', "content": '0' },
-            { "caption": '20 Mar', "date": datetime.datetime(2014, 3, 20).isoformat(), "title": 'Hard hat', "content": '0' },
-            { "caption": '20 May', "date": datetime.datetime(2014, 5, 20).isoformat(), "title": 'Hard hat', "content": '0' },
-            { "caption": '09 Jul', "date": datetime.datetime(2014, 7, 9).isoformat(), "title": 'Hard hat', "content": '0' },
-            { "caption": '30 Aug', "date": datetime.datetime(2014, 8, 30).isoformat(), "title": 'Hard hat', "content": '0' },
-            { "caption": '15 Sep', "date": datetime.datetime(2014, 9, 15).isoformat(), "title": 'Hard hat', "content": '0' },
-            { "caption": '01 Nov', "date": datetime.datetime(2014, 11, 1).isoformat(), "title": 'Hard hat', "content": '0' },
-            { "caption": '10 Dec', "date": datetime.datetime(2014, 12, 10).isoformat(), "title": 'Hard hat', "content": '0' },
-            { "caption": '29 Jan', "date": datetime.datetime(2015, 1, 19).isoformat(), "title": 'Hard hat', "content": '0' },
-            { "caption": '3 Mar', "date": datetime.datetime(2015, 3, 3).isoformat(), "title": 'Hard hat', "content": '0' },
+            { "caption": '16 Jan',"year":2014,"month":1,"day":16, "selected": True, "title": 'Human detected', "content": '0' },
+            { "caption": '28 Feb', "year":2014,"month":2,"day":28, "selected": False, "title": 'Hard hat', "content": '0' },
+            # { "caption": '20 Mar', "date": datetime.datetime(2014, 3, 20).isoformat(), "title": 'Hard hat', "content": '0' },
+            # { "caption": '20 May', "date": datetime.datetime(2014, 5, 20).isoformat(), "title": 'Hard hat', "content": '0' },
+            # { "caption": '09 Jul', "date": datetime.datetime(2014, 7, 9).isoformat(), "title": 'Hard hat', "content": '0' },
+            # { "caption": '30 Aug', "date": datetime.datetime(2014, 8, 30).isoformat(), "title": 'Hard hat', "content": '0' },
+            # { "caption": '15 Sep', "date": datetime.datetime(2014, 9, 15).isoformat(), "title": 'Hard hat', "content": '0' },
+            # { "caption": '01 Nov', "date": datetime.datetime(2014, 11, 1).isoformat(), "title": 'Hard hat', "content": '0' },
+            # { "caption": '10 Dec', "date": datetime.datetime(2014, 12, 10).isoformat(), "title": 'Hard hat', "content": '0' },
+            # { "caption": '29 Jan', "date": datetime.datetime(2015, 1, 19).isoformat(), "title": 'Hard hat', "content": '0' },
+            # { "caption": '3 Mar', "date": datetime.datetime(2015, 3, 3).isoformat(), "title": 'Hard hat', "content": '0' },
         ]
 
         return json.dumps(timeline)
