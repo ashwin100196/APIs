@@ -155,9 +155,9 @@ class get_timeline:
         web.header('Access-Control-Allow-Origin','*')
         timeline = [
             { "caption": '16 Jan',"year":2014,"month":1,"day":16, "selected": True, "title": 'Human detected', "content": '0' },
-            { "caption": '28 Feb', "year":2014,"month":2,"day":28, "selected": False, "title": 'Hard hat', "content": '0' },
-            # { "caption": '20 Mar', "date": datetime.datetime(2014, 3, 20).isoformat(), "title": 'Hard hat', "content": '0' },
-            # { "caption": '20 May', "date": datetime.datetime(2014, 5, 20).isoformat(), "title": 'Hard hat', "content": '0' },
+            { "caption": '28 Feb', "year":2014,"month":2,"day":28, "title": 'Hard hat', "content": '0' },
+            { "caption": '20 Mar', "year":2014,"month":3,"day":20, "title": 'Hard hat', "content": '0' },
+            { "caption": '20 May',"year":2014,"month":5,"day":20 , "title": 'Hard hat', "content": '0' },
             # { "caption": '09 Jul', "date": datetime.datetime(2014, 7, 9).isoformat(), "title": 'Hard hat', "content": '0' },
             # { "caption": '30 Aug', "date": datetime.datetime(2014, 8, 30).isoformat(), "title": 'Hard hat', "content": '0' },
             # { "caption": '15 Sep', "date": datetime.datetime(2014, 9, 15).isoformat(), "title": 'Hard hat', "content": '0' },
