@@ -158,13 +158,13 @@ class get_timeline:
             { "caption": '28 Feb', "year":2014,"month":2,"day":28, "title": 'Hard hat', "content": '0' },
             { "caption": '20 Mar', "year":2014,"month":3,"day":20, "title": 'Hard hat', "content": '0' },
             { "caption": '20 May',"year":2014,"month":5,"day":20 , "title": 'Hard hat', "content": '0' },
-            { "caption": '09 Jul', "date": datetime.datetime(2014, 7, 9).isoformat(), "title": 'Hard hat', "content": '0' },
-            { "caption": '30 Aug', "date": datetime.datetime(2014, 8, 30).isoformat(), "title": 'Hard hat', "content": '0' },
-            { "caption": '15 Sep', "date": datetime.datetime(2014, 9, 15).isoformat(), "title": 'Hard hat', "content": '0' },
-            { "caption": '01 Nov', "date": datetime.datetime(2014, 11, 1).isoformat(), "title": 'Hard hat', "content": '0' },
-            { "caption": '10 Dec', "date": datetime.datetime(2014, 12, 10).isoformat(), "title": 'Hard hat', "content": '0' },
-            { "caption": '29 Jan', "date": datetime.datetime(2015, 1, 19).isoformat(), "title": 'Hard hat', "content": '0' },
-            { "caption": '3 Mar', "date": datetime.datetime(2015, 3, 3).isoformat(), "title": 'Hard hat', "content": '0' },
+            # { "caption": '09 Jul', "date": datetime.datetime(2014, 7, 9).isoformat(), "title": 'Hard hat', "content": '0' },
+            # { "caption": '30 Aug', "date": datetime.datetime(2014, 8, 30).isoformat(), "title": 'Hard hat', "content": '0' },
+            # { "caption": '15 Sep', "date": datetime.datetime(2014, 9, 15).isoformat(), "title": 'Hard hat', "content": '0' },
+            # { "caption": '01 Nov', "date": datetime.datetime(2014, 11, 1).isoformat(), "title": 'Hard hat', "content": '0' },
+            # { "caption": '10 Dec', "date": datetime.datetime(2014, 12, 10).isoformat(), "title": 'Hard hat', "content": '0' },
+            # { "caption": '29 Jan', "date": datetime.datetime(2015, 1, 19).isoformat(), "title": 'Hard hat', "content": '0' },
+            # { "caption": '3 Mar', "date": datetime.datetime(2015, 3, 3).isoformat(), "title": 'Hard hat', "content": '0' },
         ]
 
         return json.dumps(timeline)
