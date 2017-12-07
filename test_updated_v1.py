@@ -162,9 +162,9 @@ class get_timeline:
             { "caption": '30 Aug', "year":2014,"month":8,"day":30 ,"title": 'Hard hat', "content": '0' },
             { "caption": '15 Sep',"year":2014,"month":9,"day":15 ,  "title": 'Hard hat', "content": '0' },
             { "caption": '01 Nov',"year":2014,"month":11,"day":10 ,  "title": 'Hard hat', "content": '0' },
-            # { "caption": '10 Dec', "year":2014,"month":12,"day":19 , "title": 'Hard hat', "content": '0' },
-            # { "caption": '29 Jan', "year":2014,"month":1,"day":19 , "title": 'Hard hat', "content": '0' },
-            # { "caption": '3 Mar', "year":2014,"month":3,"day":3 , "title": 'Hard hat', "content": '0' },
+            { "caption": '10 Dec', "year":2014,"month":11,"day":19 , "title": 'Hard hat', "content": '0' },
+            { "caption": '29 Jan', "year":2014,"month":1,"day":19 , "title": 'Hard hat', "content": '0' },
+            { "caption": '3 Mar', "year":2014,"month":3,"day":3 , "title": 'Hard hat', "content": '0' },
         ]
 
         return json.dumps(timeline)
