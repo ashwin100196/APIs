@@ -159,20 +159,23 @@ class get_timeline:
         #     alert['timestamp'] = datetime.datetime.fromtimestamp(int(alert['timestamp']+19800)).strftime('%d-%m-%Y %H:%M:%S')
         #     j.append(alert)
         # return json.dumps(j)
+        cursor = alerts.findOne({"image":{"$ne":''}})
+        for alert in cursor:
+            image = alert['image']
         web.header('Content-Type', 'text/json')
         web.header('Access-Control-Allow-Origin','*')
         timeline = [
-            { "caption": '16 Jan',"year":2014,"month":1,"day":16, "selected": True, "title": 'Human detected', "content": '0' },
-            { "caption": '28 Feb', "year":2014,"month":2,"day":28, "title": 'Hard hat', "content": '0' },
-            { "caption": '20 Mar', "year":2014,"month":3,"day":20, "title": 'Hard hat', "content": '0' },
-            { "caption": '20 May',"year":2014,"month":5,"day":20 , "title": 'Hard hat', "content": '0' },
-            { "caption": '09 Jul', "year":2014,"month":7,"day":9 , "title": 'Hard hat', "content": '0' },
-            { "caption": '30 Aug', "year":2014,"month":8,"day":30 ,"title": 'Hard hat', "content": '0' },
-            { "caption": '15 Sep',"year":2014,"month":9,"day":15 ,  "title": 'Hard hat', "content": '0' },
-            { "caption": '01 Nov',"year":2014,"month":11,"day":10 ,  "title": 'Hard hat', "content": '0' },
-            { "caption": '10 Dec', "year":2014,"month":11,"day":19 , "title": 'Hard hat', "content": '0' },
-            { "caption": '29 Jan', "year":2015,"month":1,"day":19 , "title": 'Hard hat', "content": '0' },
-            { "caption": '3 Mar', "year":2015,"month":3,"day":3 , "title": 'Hard hat', "content": '0' },
+            { "caption": '16 Jan',"year":2014,"month":1,"day":16, "selected": True, "title": 'Human detected', "content": '0',"image":image},
+            { "caption": '28 Feb', "year":2014,"month":2,"day":28, "title": 'Hard hat', "content": '0' ,"image":image},
+            { "caption": '20 Mar', "year":2014,"month":3,"day":20, "title": 'Hard hat', "content": '0',"image":image },
+            { "caption": '20 May',"year":2014,"month":5,"day":20 , "title": 'Hard hat', "content": '0',"image":image },
+            { "caption": '09 Jul', "year":2014,"month":7,"day":9 , "title": 'Hard hat', "content": '0' ,"image":image},
+            { "caption": '30 Aug', "year":2014,"month":8,"day":30 ,"title": 'Hard hat', "content": '0' ,"image":image},
+            { "caption": '15 Sep',"year":2014,"month":9,"day":15 ,  "title": 'Hard hat', "content": '0' ,"image":image},
+            { "caption": '01 Nov',"year":2014,"month":11,"day":10 ,  "title": 'Hard hat', "content": '0',"image":image },
+            { "caption": '10 Dec', "year":2014,"month":11,"day":19 , "title": 'Hard hat', "content": '0',"image":image },
+            { "caption": '29 Jan', "year":2015,"month":1,"day":19 , "title": 'Hard hat', "content": '0',"image":image },
+            { "caption": '3 Mar', "year":2015,"month":3,"day":3 , "title": 'Hard hat', "content": '0' ,"image":image},
         ]
 
         return json.dumps(timeline)
