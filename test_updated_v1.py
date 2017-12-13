@@ -22,7 +22,7 @@ from pymongo import MongoClient
 client = MongoClient('mongodb://heroku_z9l8tf4w:g3l5j5hbh755td1sm8e0pf30er@ds117605.mlab.com:17605/heroku_z9l8tf4w')
 db = client.get_database()
 alerts = db.alarm_history
-
+i=1;
 
 urls = (
     '/home', 'get_home',
@@ -52,7 +52,8 @@ def sum_the_count(cursor):
         prev = alarm['count']
     return (total/alert_count, curval)
 
-class get_home:    
+class get_home:  
+    global i;  
     i =1
     def get_table(self,index):
         #initialize maximum and minimum values
@@ -70,6 +71,7 @@ class get_home:
             risk = "Moderate"
         else :
             risk = "Low"
+
         global i;
         response = {"no":i,"event":events[index],"min_health": arr_hlth_min[index], "max_health": arr_hlth_max[index],
         "curval":curval,"avg":avg, "rating":rating, "risk" : risk}
