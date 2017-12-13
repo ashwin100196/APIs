@@ -14,6 +14,7 @@ MAIN FILE
 import web
 import time
 import datetime
+i =1
 
 # Create your views here.
 
@@ -70,8 +71,9 @@ class get_home:
         else :
             risk = "Low"
 
-        response = {"event":events[index],"min_health": arr_hlth_min[index], "max_health": arr_hlth_max[index],
+        response = {"no":i,"event":events[index],"min_health": arr_hlth_min[index], "max_health": arr_hlth_max[index],
         "curval":curval,"avg":avg, "rating":rating, "risk" : risk}
+        i+=1
         return response
 
     def GET(self):  
