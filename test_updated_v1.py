@@ -159,9 +159,11 @@ class get_timeline:
         #     alert['timestamp'] = datetime.datetime.fromtimestamp(int(alert['timestamp']+19800)).strftime('%d-%m-%Y %H:%M:%S')
         #     j.append(alert)
         # return json.dumps(j)
-        cursor = alerts.findOne({"image":{"$ne":''}})
+        cursor = alerts.find({"image":{"$ne":''}}).limit(1)
         for alert in cursor:
-            image = alert['image']
+            #print(alert['image'])
+            image = alert['image'].decode("utf-8")
+            print(image)
         web.header('Content-Type', 'text/json')
         web.header('Access-Control-Allow-Origin','*')
         timeline = [
