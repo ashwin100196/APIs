@@ -70,8 +70,8 @@ class get_home:
         else :
             risk = "Low"
 
-        response = {"Event name":events[index],"Health zone min": arr_hlth_min[index], "Health zone max": arr_hlth_max[index],
-        "Current value":curval,"Average":avg, "Rating":rating, "Risk" : risk}
+        response = {"event":events[index],"min_health": arr_hlth_min[index], "max_health": arr_hlth_max[index],
+        "curval":curval,"avg":avg, "rating":rating, "risk" : risk}
         return response
 
     def GET(self):  
