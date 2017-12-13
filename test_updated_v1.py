@@ -97,6 +97,9 @@ class get_home:
         resp3 = self.get_table(2)
         resp4 = self.get_table(3)
         resp5 = self.get_table(4)
+
+        web.header('Content-Type', 'text/json')
+        web.header('Access-Control-Allow-Origin','*')
         
         resp_data = [resp1,resp2,resp3,resp4,resp5]
         return json.dumps(resp_data)
