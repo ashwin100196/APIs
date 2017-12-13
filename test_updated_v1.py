@@ -14,7 +14,6 @@ MAIN FILE
 import web
 import time
 import datetime
-i =1
 
 # Create your views here.
 
@@ -54,6 +53,7 @@ def sum_the_count(cursor):
     return (total/alert_count, curval)
 
 class get_home:    
+    i =1
     def get_table(self,index):
         #initialize maximum and minimum values
         arr_hlth_min = [0.0,2.0,5.0,4.0,0.0]
