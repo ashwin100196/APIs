@@ -72,7 +72,7 @@ class get_home:
             risk = "Low"
 
         global i;
-        response = {"no":i,"event":events[index],"min_health": arr_hlth_min[index], "max_health": arr_hlth_max[index],
+        response = {"no":i,"event":events_output[index],"min_health": arr_hlth_min[index], "max_health": arr_hlth_max[index],
         "curval":curval,"avg":avg, "rating":rating, "risk" : risk}
         i+=1
         return response
