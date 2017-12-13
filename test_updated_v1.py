@@ -58,6 +58,7 @@ class get_home:
         arr_hlth_min = [0.0,2.0,5.0,4.0,0.0]
         arr_hlth_max = [10.0,15.0,13.0,8.0,1.0]
         events = ["Human detected","hardhat","safetyglasses","hearingprotection","spill"]
+        events_output = ["Human detected","Hardhat not worn","Safety Glasses not worn","Hearing Protection not worn","Spill detected"]
         cursor = alerts.find({"$and":[{"type":events[index]},{"timestamp":{"$gt":self.time_start,"$lt":self.time_end}}]}).sort([("timestamp" , -1)])
         avg,curval = sum_the_count(cursor)
         rating = 1 + int((arr_hlth_max[index]-curval)/(arr_hlth_max[index]-arr_hlth_min[index])*5)
